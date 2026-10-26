@@ -128,8 +128,7 @@ registerForm.addEventListener('submit', async (event) => {
         'success'
     );
 
-    registerForm.reset();
-    showRegister(false);
+
 });
 
 // Bereits angemeldete Benutzer direkt weiterleiten
