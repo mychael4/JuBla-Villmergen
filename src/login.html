@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuBla Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body class="auth-page">
+    <main class="auth-shell">
+        <section class="auth-card" aria-labelledby="login-title">
+            <div class="brand-block">
+                <img src="../Assets/JuBla Villmergen Logo.png" alt="JuBla Villmergen Logo">
+                <p class="eyebrow">JuBla Villmergen</p>
+                <h2 id="login-title">Anmelden</h2>
+            </div>
+
+            <form id="login-form" class="login-form" novalidate>
+                <label for="username">Benutzername</label>
+                <input id="username" name="username" type="text" placeholder="z. B. leiter" required>
+
+                <label for="password">Passwort</label>
+                <input id="password" name="password" type="password" placeholder="Dein Passwort" required>
+
+                <button type="submit">Einloggen</button>
+            </form>
+
+            <p id="login-status" class="status-message" aria-live="polite"></p>
+
+            <a class="back-link" href="index.html">Zurück zur Startseite</a>
+        </section>
+    </main>
+</body>
+</html>

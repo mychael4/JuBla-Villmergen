@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuen Leiter hinzufügen</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+<main class="auth-shell">
+    <section class="auth-card" aria-labelledby="add-leiter-title">
+
+        <!-- Header-Bereich -->
+        <div class="brand-block">
+            <img src="../Assets/JuBla Villmergen Logo.png" alt="JuBla Villmergen Logo" class="brand-logo">
+            <p class="eyebrow">Jungwacht Blauring</p>
+            <h2 id="add-leiter-title">Neuen Leiter hinzufügen</h2>
+        </div>
+
+        <!-- Formular -->
+        <form id="add-leiter-form" class="add-leiter-form" novalidate>
+
+            <!-- Feld: Name -->
+            <div class="form-group">
+                <label for="leiter-name">Name / Vorname</label>
+                <input id="leiter-name" name="leiter-name" type="text" placeholder="Max Muster" required>
+                <span class="error-message" aria-live="polite"></span>
+            </div>
+
+            <!-- Feld: E-Mail -->
+            <div class="form-group">
+                <label for="leiter-email">E-Mail-Adresse</label>
+                <input id="leiter-email" name="leiter-email" type="email" placeholder="max.muster@bla.ch" required>
+                <span class="error-message" aria-live="polite"></span>
+            </div>
+
+            <!-- Feld: Telefon -->
+            <div class="form-group">
+                <label for="leiter-telephone">Telefonnummer</label>
+                <input id="leiter-telephone" name="leiter-telephone" type="tel" placeholder="+41 79 123 45 67" required>
+                <span class="error-message" aria-live="polite"></span>
+            </div>
+
+            <!-- Feld: Bild -->
+            <div class="form-group file-group">
+                <label for="leiter-picture" class="file-label">
+                    <span class="file-text">Profilbild auswählen</span>
+                </label>
+                <input id="leiter-picture" name="leiter-picture" type="file" accept="image/*" required>
+                <span class="error-message" aria-live="polite"></span>
+            </div>
+
+            <!-- Action Button -->
+            <button type="submit" class="btn-submit">Leiter erstellen</button>
+            <button type="button" class="btn-cancel" onclick="window.location.href='dashboard.html'; return false;">Abbrechen</button>
+            <p id="add-leiter-status" class="status-message" aria-live="polite"></p>
+
+        </form>
+    </section>
+</main>
+</body>
+</html>
