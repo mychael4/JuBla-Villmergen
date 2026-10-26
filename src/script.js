@@ -362,6 +362,8 @@ renderLeaderGrid();
 
 (function attachEventsFeature() {
     const newEventBtn = document.getElementById('new-event-btn');
+    console.log('EVENT-FEATURE GELADEN');
+    console.log('BUTTON:', newEventBtn);
     const newEventForm = document.getElementById('new-event-form');
     const titleInput = document.getElementById('event-title');
     const dateInput = document.getElementById('event-date');
@@ -434,6 +436,7 @@ renderLeaderGrid();
     }
 
     if (newEventBtn) {
+        console.log('KLICK-LISTENER WIRD REGISTRIERT');
         newEventBtn.addEventListener('click', () => {
             toggleForm(true);
             setEventsStatus('', '');
