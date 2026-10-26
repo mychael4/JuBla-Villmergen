@@ -33,11 +33,20 @@ function showRegister(show) {
 }
 
 toggleButton.addEventListener('click', () => {
-    loginForm.hidden = true;
-    registerForm.hidden = false;
+    const showRegistration = loginForm.hidden;
 
-    authTitle.textContent = 'Registrieren';
-    toggleButton.textContent = 'Bereits ein Konto? Anmelden';
+    loginForm.hidden = showRegistration;
+    registerForm.hidden = !showRegistration;
+
+    authTitle.textContent = showRegistration
+        ? 'Registrieren'
+        : 'Anmelden';
+
+    toggleButton.textContent = showRegistration
+        ? 'Bereits ein Konto? Anmelden'
+        : 'Noch kein Konto? Registrieren';
+
+    showStatus('');
 });
 
 // Anmeldung
