@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -5,31 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JuBla Login</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js" defer></script>
+    <script src="auth.js" defer></script>
 </head>
 <body class="auth-page">
-    <main class="auth-shell">
-        <section class="auth-card" aria-labelledby="login-title">
-            <div class="brand-block">
-                <img src="../Assets/JuBla Villmergen Logo.png" alt="JuBla Villmergen Logo">
-                <p class="eyebrow">JuBla Villmergen</p>
-                <h2 id="login-title">Anmelden</h2>
-            </div>
+<main class="auth-shell">
+    <section class="auth-card">
+        <div class="brand-block">
+            <img src="../Assets/JuBla Villmergen Logo.png" alt="JuBla Villmergen Logo">
+            <p class="eyebrow">JuBla Villmergen</p>
+            <h2 id="auth-title">Anmelden</h2>
+        </div>
 
-            <form id="login-form" class="login-form" novalidate>
-                <label for="username">Benutzername</label>
-                <input id="username" name="username" type="text" placeholder="z. B. leiter" required>
+        <form id="login-form" class="login-form">
+            <label for="email">E-Mail-Adresse</label>
+            <input id="email" type="email" required autocomplete="email">
 
-                <label for="password">Passwort</label>
-                <input id="password" name="password" type="password" placeholder="Dein Passwort" required>
+            <label for="password">Passwort</label>
+            <input id="password" type="password" required autocomplete="current-password">
 
-                <button type="submit">Einloggen</button>
-            </form>
+            <button type="submit">Einloggen</button>
+        </form>
 
-            <p id="login-status" class="status-message" aria-live="polite"></p>
+        <form id="register-form" class="login-form" hidden>
+            <label for="register-name">Vor- und Nachname</label>
+            <input id="register-name" type="text" required autocomplete="name">
 
-            <a class="back-link" href="index.html">Zurück zur Startseite</a>
-        </section>
-    </main>
+            <label for="register-email">E-Mail-Adresse</label>
+            <input id="register-email" type="email" required autocomplete="email">
+
+            <label for="register-password">Passwort</label>
+            <input id="register-password" type="password" required minlength="8" autocomplete="new-password">
+
+            <button type="submit">Registrieren</button>
+        </form>
+
+        <p id="login-status" class="status-message" aria-live="polite"></p>
+
+        <button id="toggle-auth" type="button" class="secondary-action">
+            Noch kein Konto? Registrieren
+        </button>
+
+        <a class="back-link" href="index.html">Zurück zur Startseite</a>
+    </section>
+</main>
 </body>
 </html>
