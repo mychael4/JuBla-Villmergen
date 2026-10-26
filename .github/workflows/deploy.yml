@@ -33,8 +33,29 @@ jobs:
       - name: Prepare website
         run: |
           mkdir public
-          cp -r . public/
-          cp src/index.html public/index.html
+
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='public/' \
+            ./ public/
+
+          cat > public/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="refresh" content="0; url=./src/index.html">
+            <title>JuBla Villmergen</title>
+          </head>
+          <body>
+            <script>
+              window.location.replace('./src/index.html');
+            </script>
+          </body>
+          </html>
+          EOF
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
