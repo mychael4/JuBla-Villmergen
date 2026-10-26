@@ -20,8 +20,10 @@
         return;
     }
 
-    window.currentProfile = profile;
-    window.currentProfile.id = session.user.id;
+    window.currentProfile = {
+        ...profile,
+        id: session.user.id
+    };
 
     const nameElements = [
         document.getElementById('welcome-name'),
@@ -43,11 +45,11 @@
 
     document.body.classList.add('dashboard-authenticated');
 
-    // Benutzerverwaltung nur für Admins laden
     if (profile.role === 'admin') {
         initAdminUserManagement();
     }
 })();
+
 
 async function initAdminUserManagement() {
     const section = document.getElementById('admin-user-section');
@@ -57,6 +59,12 @@ async function initAdminUserManagement() {
     if (!section || !list || !status) return;
 
     section.classList.remove('hidden');
+
+    // Hinweis für neue Registrierungen
+    const notification = document.createElement('p');
+    notification.className = 'status-message';
+    notification.setAttribute('aria-live', 'polite');
+    section.insertBefore(notification, list);
 
     async function loadUsers() {
         list.textContent = 'Benutzer werden geladen ...';
@@ -69,7 +77,19 @@ async function initAdminUserManagement() {
         if (error) {
             console.error(error);
             list.textContent = 'Benutzer konnten nicht geladen werden.';
+            notification.textContent = '';
             return;
+        }
+
+        const pendingUsers = data.filter(user => user.status === 'pending');
+
+        if (pendingUsers.length > 0) {
+            notification.textContent =
+                `🔔 ${pendingUsers.length} neue Registrierung(en) warten auf Freischaltung.`;
+            notification.className = 'status-message warning';
+        } else {
+            notification.textContent = 'Keine offenen Registrierungen.';
+            notification.className = 'status-message';
         }
 
         list.innerHTML = '';
@@ -78,6 +98,13 @@ async function initAdminUserManagement() {
             list.textContent = 'Keine Benutzer vorhanden.';
             return;
         }
+
+        // Ausstehende Registrierungen zuerst anzeigen
+        data.sort((a, b) => {
+            if (a.status === 'pending' && b.status !== 'pending') return -1;
+            if (a.status !== 'pending' && b.status === 'pending') return 1;
+            return new Date(b.created_at) - new Date(a.created_at);
+        });
 
         data.forEach(user => {
             const card = document.createElement('div');
@@ -93,24 +120,26 @@ async function initAdminUserManagement() {
             const actions = document.createElement('div');
             actions.className = 'admin-user-actions';
 
-            if (user.id === supabaseClient.auth.getUser().id) {
-                // Eigene Admin-Aktionen nicht anzeigen
-            }
-
             if (user.id !== window.currentProfile.id) {
-                const approve = document.createElement('button');
-                approve.type = 'button';
-                approve.textContent = 'Freischalten';
-                approve.addEventListener('click', () =>
-                    updateUser(user.id, { status: 'approved' })
-                );
+                if (user.status !== 'approved') {
+                    const approve = document.createElement('button');
+                    approve.type = 'button';
+                    approve.textContent = 'Freischalten';
+                    approve.addEventListener('click', () =>
+                        updateUser(user.id, { status: 'approved' })
+                    );
+                    actions.appendChild(approve);
+                }
 
-                const reject = document.createElement('button');
-                reject.type = 'button';
-                reject.textContent = 'Ablehnen';
-                reject.addEventListener('click', () =>
-                    updateUser(user.id, { status: 'rejected' })
-                );
+                if (user.status !== 'rejected') {
+                    const reject = document.createElement('button');
+                    reject.type = 'button';
+                    reject.textContent = 'Ablehnen';
+                    reject.addEventListener('click', () =>
+                        updateUser(user.id, { status: 'rejected' })
+                    );
+                    actions.appendChild(reject);
+                }
 
                 const makeLeader = document.createElement('button');
                 makeLeader.type = 'button';
@@ -126,7 +155,7 @@ async function initAdminUserManagement() {
                     updateUser(user.id, { role: 'admin' })
                 );
 
-                actions.append(approve, reject, makeLeader, makeAdmin);
+                actions.append(makeLeader, makeAdmin);
             }
 
             card.append(name, details, actions);
@@ -156,4 +185,18 @@ async function initAdminUserManagement() {
     }
 
     await loadUsers();
+
+    // Neue Registrierungen automatisch erkennen
+    supabaseClient
+        .channel('admin-new-registrations')
+        .on(
+            'postgres_changes',
+            {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'profiles'
+            },
+            () => loadUsers()
+        )
+        .subscribe();
 }
