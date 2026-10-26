@@ -27,6 +27,7 @@ function showRegister(show) {
 }
 
 toggleButton.addEventListener('click', () => {
+    console.log('Registrieren-Button wurde geklickt');
     showRegister(!registerForm.hidden);
 });
 
