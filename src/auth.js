@@ -15,10 +15,16 @@ function showStatus(message, type = '') {
 }
 
 function showRegister(show) {
+    console.log('showRegister aufgerufen:', show);
+
     loginForm.hidden = show;
     registerForm.hidden = !show;
 
+    console.log('Login hidden:', loginForm.hidden);
+    console.log('Register hidden:', registerForm.hidden);
+
     authTitle.textContent = show ? 'Registrieren' : 'Anmelden';
+
     toggleButton.textContent = show
         ? 'Bereits ein Konto? Anmelden'
         : 'Noch kein Konto? Registrieren';
