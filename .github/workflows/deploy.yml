@@ -30,10 +30,16 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload entire repository
+      - name: Prepare website
+        run: |
+          mkdir public
+          cp -r src/. public/
+          cp -r pictures public/
+
+      - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: ./public
 
       - name: Deploy
         id: deployment
