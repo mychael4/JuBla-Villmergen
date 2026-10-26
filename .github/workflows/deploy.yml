@@ -30,10 +30,38 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload entire repository
+      - name: Prepare website
+        run: |
+          mkdir public
+
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='public/' \
+            --exclude='logins/' \
+            ./ public/
+
+          cat > public/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="refresh" content="0; url=./src/index.html">
+            <title>JuBla Villmergen</title>
+          </head>
+          <body>
+            <script>
+              window.location.replace('./src/index.html');
+            </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: ./public
 
       - name: Deploy
         id: deployment
