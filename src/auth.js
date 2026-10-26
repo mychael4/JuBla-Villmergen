@@ -15,13 +15,8 @@ function showStatus(message, type = '') {
 }
 
 function showRegister(show) {
-    console.log('showRegister aufgerufen:', show);
-
     loginForm.hidden = show;
     registerForm.hidden = !show;
-
-    console.log('Login hidden:', loginForm.hidden);
-    console.log('Register hidden:', registerForm.hidden);
 
     authTitle.textContent = show ? 'Registrieren' : 'Anmelden';
 
@@ -33,21 +28,10 @@ function showRegister(show) {
 }
 
 toggleButton.addEventListener('click', () => {
-    const showRegistration = loginForm.hidden;
-
-    loginForm.hidden = showRegistration;
-    registerForm.hidden = !showRegistration;
-
-    authTitle.textContent = showRegistration
-        ? 'Registrieren'
-        : 'Anmelden';
-
-    toggleButton.textContent = showRegistration
-        ? 'Bereits ein Konto? Anmelden'
-        : 'Noch kein Konto? Registrieren';
-
-    showStatus('');
+    showRegister(!loginForm.hidden);
 });
+
+
 
 // Anmeldung
 loginForm.addEventListener('submit', async (event) => {
@@ -136,6 +120,7 @@ registerForm.addEventListener('submit', async (event) => {
     );
 
     registerForm.reset();
+    showRegister(false);
 
     loginForm.hidden = false;
     registerForm.hidden = true;
