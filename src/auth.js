@@ -33,13 +33,11 @@ function showRegister(show) {
 }
 
 toggleButton.addEventListener('click', () => {
-    console.log('Button geklickt');
-    console.log('Login hidden vorher:', loginForm.hidden);
-    console.log('Register hidden vorher:', registerForm.hidden);
+    loginForm.hidden = true;
+    registerForm.hidden = false;
 
-    const show = loginForm.hidden;
-
-    showRegister(show);
+    authTitle.textContent = 'Registrieren';
+    toggleButton.textContent = 'Bereits ein Konto? Anmelden';
 });
 
 // Anmeldung
@@ -128,7 +126,8 @@ registerForm.addEventListener('submit', async (event) => {
         'success'
     );
 
-
+    registerForm.reset();
+    showRegister(false);
 });
 
 // Bereits angemeldete Benutzer direkt weiterleiten
