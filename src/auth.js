@@ -136,7 +136,12 @@ registerForm.addEventListener('submit', async (event) => {
     );
 
     registerForm.reset();
-    showRegister(false);
+
+    loginForm.hidden = false;
+    registerForm.hidden = true;
+
+    authTitle.textContent = 'Anmelden';
+    toggleButton.textContent = 'Noch kein Konto? Registrieren';
 });
 
 // Bereits angemeldete Benutzer direkt weiterleiten
