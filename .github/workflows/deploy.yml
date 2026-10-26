@@ -33,8 +33,8 @@ jobs:
       - name: Prepare website
         run: |
           mkdir public
-          cp -r src/. public/
-          cp -r pictures public/
+          cp -r . public/
+          cp src/index.html public/index.html
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
