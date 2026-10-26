@@ -298,9 +298,14 @@ function formatDate(dateString) {
 }
 
 async function loadEvents() {
-    const response = await fetch('events.json');
-    if (!response.ok) throw new Error('Anlässe konnten nicht geladen werden.');
-    return response.json();
+    const { data, error } = await supabaseClient
+        .from('events')
+        .select('*')
+        .order('date', { ascending: true });
+
+    if (error) throw error;
+
+    return data || [];
 }
 
 async function renderHomepageEvents() {
@@ -354,120 +359,47 @@ async function renderHomepageEvents() {
 renderHomepageEvents();
 renderLeaderGrid();
 
-(async function attachEventsFeature() {
-    const eventsList = document.getElementById('events-list');
-    if (!eventsList) return;
+if (newEventForm) {
+    newEventForm.addEventListener('submit', async event => {
+        event.preventDefault();
 
-    const statusEl = document.getElementById('events-status');
-    const nextEventName = document.getElementById('next-event-name');
-    const nextEventDate = document.getElementById('next-event-date');
-    const upcomingCount = document.getElementById('upcoming-count');
-    const totalEvents = document.getElementById('total-events');
+        const payload = {
+            title: titleInput.value.trim(),
+            date: dateInput.value,
+            info: infoInput.value.trim()
+        };
 
-    const newEventBtn = document.getElementById('new-event-btn');
-    const newEventForm = document.getElementById('new-event-form');
-    const cancelEventBtn = document.getElementById('cancel-event-btn');
-    const titleInput = document.getElementById('event-title');
-    const dateInput = document.getElementById('event-date');
-    const infoInput = document.getElementById('event-info');
-
-    function setEventsStatus(message, type) {
-        setStatus(message, type, statusEl);
-    }
-
-    function renderEvents(events) {
-        eventsList.innerHTML = '';
-        const active = filterActiveEvents(events)
-            .sort((a, b) => new Date(a.date) - new Date(b.date));
-
-        const next = active[0];
-
-        if (nextEventName) nextEventName.textContent = next ? next.title : 'Keine';
-        if (nextEventDate) nextEventDate.textContent = next ? formatDate(next.date) : 'Noch kein Termin geplant';
-        if (upcomingCount) upcomingCount.textContent = String(active.length);
-        if (totalEvents) totalEvents.textContent = String(events.length);
-
-        if (!active.length) {
-            const li = document.createElement('li');
-            li.className = 'event-empty';
-            li.textContent = 'Keine Anlässe vorhanden.';
-            eventsList.appendChild(li);
+        if (!payload.title || !payload.date || !payload.info) {
+            setEventsStatus('Bitte alle Felder ausfüllen.', 'error');
             return;
         }
 
-        active.forEach(event => {
-            const li = document.createElement('li');
-            li.className = 'event-item';
+        const { data: { user }, error: userError } =
+            await supabaseClient.auth.getUser();
 
-            const date = document.createElement('span');
-            date.className = 'event-date';
-            date.textContent = formatDate(event.date);
-
-            const wrap = document.createElement('div');
-            wrap.className = 'event-text';
-
-            const title = document.createElement('span');
-            title.className = 'event-title';
-            title.textContent = event.title;
-            wrap.appendChild(title);
-
-            if (event.info) {
-                const info = document.createElement('small');
-                info.className = 'event-info';
-                info.textContent = event.info;
-                wrap.appendChild(info);
-            }
-
-            li.append(date, wrap);
-            eventsList.appendChild(li);
-        });
-    }
-
-    function toggleForm(show) {
-        if (!newEventForm) return;
-        newEventForm.classList.toggle('hidden', !show);
-        newEventForm.setAttribute('aria-hidden', String(!show));
-        if (show && titleInput) titleInput.focus();
-        if (!show) newEventForm.reset();
-    }
-
-    if (newEventBtn) newEventBtn.addEventListener('click', () => toggleForm(true));
-    if (cancelEventBtn) cancelEventBtn.addEventListener('click', () => toggleForm(false));
-
-    async function refreshEvents() {
-        try {
-            const events = await loadEvents();
-            renderEvents(Array.isArray(events) ? events : []);
-        } catch (error) {
-            setEventsStatus(error.message, 'error');
-            renderEvents([]);
+        if (userError || !user) {
+            setEventsStatus('Du bist nicht angemeldet.', 'error');
+            return;
         }
-    }
 
-    if (newEventForm) {
-        newEventForm.addEventListener('submit', async event => {
-            event.preventDefault();
+        const { error } = await supabaseClient
+            .from('events')
+            .insert({
+                ...payload,
+                created_by: user.id
+            });
 
-            const payload = {
-                title: titleInput.value.trim(),
-                date: dateInput.value,
-                info: infoInput.value.trim()
-            };
+        if (error) {
+            console.error('Fehler beim Speichern:', error);
+            setEventsStatus('Fehler beim Speichern: ' + error.message, 'error');
+            return;
+        }
 
-            if (!payload.title || !payload.date || !payload.info) {
-                setEventsStatus('Bitte alle Felder ausfüllen.', 'error');
-                return;
-            }
-
-            setEventsStatus(
-                'Das Speichern von Anlässen benötigt noch eine gemeinsame Datenbank-Anbindung.',
-                'error'
-            );
-        });
-    }
-
-    await refreshEvents();
-})();
+        setEventsStatus('Anlass erfolgreich gespeichert!', 'success');
+        toggleForm(false);
+        await refreshEvents();
+    });
+}
 
 (function attachLagerUploadFeature() {
     const form = document.getElementById('lager-upload-form');
