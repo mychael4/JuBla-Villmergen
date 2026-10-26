@@ -33,7 +33,12 @@ function showRegister(show) {
 }
 
 toggleButton.addEventListener('click', () => {
+    console.log('Button geklickt');
+    console.log('Login hidden vorher:', loginForm.hidden);
+    console.log('Register hidden vorher:', registerForm.hidden);
+
     const show = loginForm.hidden;
+
     showRegister(show);
 });
 
