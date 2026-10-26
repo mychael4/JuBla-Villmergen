@@ -33,8 +33,8 @@ function showRegister(show) {
 }
 
 toggleButton.addEventListener('click', () => {
-    console.log('Registrieren-Button wurde geklickt');
-    showRegister(!registerForm.hidden);
+    const show = loginForm.hidden;
+    showRegister(show);
 });
 
 // Anmeldung
