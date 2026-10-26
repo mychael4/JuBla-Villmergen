@@ -359,7 +359,94 @@ async function renderHomepageEvents() {
 renderHomepageEvents();
 renderLeaderGrid();
 
-if (newEventForm) {
+
+(function attachEventsFeature() {
+    const newEventBtn = document.getElementById('new-event-btn');
+    const newEventForm = document.getElementById('new-event-form');
+    const titleInput = document.getElementById('event-title');
+    const dateInput = document.getElementById('event-date');
+    const infoInput = document.getElementById('event-info');
+    const cancelBtn = document.getElementById('cancel-event-btn');
+    const eventsList = document.getElementById('events-list');
+    const statusEl = document.getElementById('events-status');
+
+    if (!newEventForm) return;
+
+    function setEventsStatus(message, type) {
+        setStatus(message, type, statusEl);
+    }
+
+    function toggleForm(show) {
+        newEventForm.classList.toggle('hidden', !show);
+        newEventForm.setAttribute('aria-hidden', String(!show));
+
+        if (show) titleInput.focus();
+        else newEventForm.reset();
+    }
+
+    async function refreshEvents() {
+        try {
+            const events = await loadEvents();
+            const activeEvents = filterActiveEvents(events);
+
+            eventsList.innerHTML = '';
+
+            if (!activeEvents.length) {
+                eventsList.innerHTML = '<li>Aktuell keine Anlässe vorhanden.</li>';
+            } else {
+                activeEvents.forEach(event => {
+                    const item = document.createElement('li');
+                    item.className = 'event-item';
+
+                    const title = document.createElement('strong');
+                    title.textContent = event.title;
+
+                    const date = document.createElement('span');
+                    date.textContent = formatDate(event.date);
+
+                    const info = document.createElement('p');
+                    info.textContent = event.info;
+
+                    item.append(title, date, info);
+                    eventsList.appendChild(item);
+                });
+            }
+
+            const upcomingCount = document.getElementById('upcoming-count');
+            const totalEvents = document.getElementById('total-events');
+            const nextEventName = document.getElementById('next-event-name');
+            const nextEventDate = document.getElementById('next-event-date');
+
+            if (upcomingCount) upcomingCount.textContent = activeEvents.length;
+            if (totalEvents) totalEvents.textContent = events.length;
+
+            if (activeEvents.length) {
+                if (nextEventName) nextEventName.textContent = activeEvents[0].title;
+                if (nextEventDate) nextEventDate.textContent = formatDate(activeEvents[0].date);
+            } else {
+                if (nextEventName) nextEventName.textContent = 'Keine';
+                if (nextEventDate) nextEventDate.textContent = 'Noch kein Termin geplant';
+            }
+        } catch (error) {
+            console.error('Fehler beim Laden der Anlässe:', error);
+            setEventsStatus('Anlässe konnten nicht geladen werden: ' + error.message, 'error');
+        }
+    }
+
+    if (newEventBtn) {
+        newEventBtn.addEventListener('click', () => {
+            toggleForm(true);
+            setEventsStatus('', '');
+        });
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            toggleForm(false);
+            setEventsStatus('', '');
+        });
+    }
+
     newEventForm.addEventListener('submit', async event => {
         event.preventDefault();
 
@@ -399,7 +486,9 @@ if (newEventForm) {
         toggleForm(false);
         await refreshEvents();
     });
-}
+
+    refreshEvents();
+})();
 
 (function attachLagerUploadFeature() {
     const form = document.getElementById('lager-upload-form');
