@@ -1,0 +1,186 @@
+[
+  {
+    "username": "Michael Häfeli",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 77 529 29 61",
+    "picture": "pictures/Michael.jpg",
+    "email": "michael.hefali@gmail.com",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Fabrice",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Leonora",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Fabio",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Levin",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Martin",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Max",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Melanie",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Samuel",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Alicija",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Aline",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Alya",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Colin",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "David",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Elena",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Giulia",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Jasmin",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Lara",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Lia",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Lisa",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Marcel",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Marina",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  },
+  {
+    "username": "Nina",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/.jpg",
+    "email": "",
+    "role": "Leiterin / Leiter"
+  }
+]

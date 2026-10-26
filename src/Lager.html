@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lagerbilder</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar" aria-label="Hauptnavigation">
+            <a class="logo" href="index.html">
+                <img src="../Assets/JuBla Villmergen Logo.png" alt="JuBla Villmergen Logo">
+                <span>JuBla Villmergen</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="content-shell">
+        <h1>Jubla-Lager & Abenteuer</h1>
+        <p>Die Jubla bietet Kindern und Jugendlichen vielfältige Lager- und Abenteuererlebnisse mit Gemeinschaft, Naturerleben, Selbstständigkeit und viel Bewegung. Hier findest du die gespeicherten Bilder aus solchen Anlässen. Klick auf „Download“, um ein Bild herunterzuladen.</p>
+
+        <section class="gallery-card">
+            <ul id="lager-list" class="lager-list"></ul>
+        </section>
+
+        <p id="lager-page-status" class="status-message" aria-live="polite"></p>
+    </main>
+
+    <script>
+        (function renderLagerPage(){
+            const list = document.getElementById('lager-list');
+            const status = document.getElementById('lager-page-status');
+            if (!list) return;
+
+            try {
+                const items = JSON.parse(localStorage.getItem('lager-uploads') || '[]');
+                if (!items.length) {
+                    const li = document.createElement('li');
+                    li.textContent = 'Keine Lagerbilder vorhanden.';
+                    list.appendChild(li);
+                    return;
+                }
+
+                items.sort((a,b) => b.uploadedAt - a.uploadedAt);
+
+                for (const it of items){
+                    const li = document.createElement('li');
+                    li.className = 'lager-item';
+
+                    const imgWrap = document.createElement('div');
+                    imgWrap.className = 'lager-img-wrap';
+
+                    const img = document.createElement('img');
+                    img.src = it.dataUrl;
+                    img.alt = it.title || it.filename || 'Lagerbild';
+                    img.className = 'lager-thumb';
+
+                    imgWrap.appendChild(img);
+
+                    const meta = document.createElement('div');
+                    meta.className = 'lager-meta';
+
+                    const title = document.createElement('strong');
+                    title.textContent = it.title || 'Untitled';
+
+                    const uploader = document.createElement('div');
+                    uploader.className = 'lager-uploader';
+                    uploader.textContent = `hochgeladen von: ${it.uploader || '-'} `;
+
+                    const dl = document.createElement('a');
+                    dl.href = it.dataUrl;
+                    dl.download = it.filename || 'image.png';
+                    dl.textContent = 'Download';
+                    dl.className = 'lager-download';
+
+                    meta.appendChild(title);
+                    meta.appendChild(uploader);
+                    meta.appendChild(dl);
+
+                    li.appendChild(imgWrap);
+                    li.appendChild(meta);
+                    list.appendChild(li);
+                }
+            } catch (e){
+                if (status) status.textContent = 'Fehler beim Laden der Bilder.';
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body class="dashboard-page">
+    <header class="site-header">
+        <nav class="navbar" aria-label="Hauptnavigation">
+            <a class="logo" href="index.html">
+                <img src="../Assets/JuBla Villmergen Logo.png" alt="JuBla Villmergen Logo">
+                <span>JuBla Villmergen</span>
+            </a>
+            <ul class="nav-links" aria-label="Hauptmenü">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Startseite</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="LeiterHinzufügen.html">Leiter verwalten</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item user-pill">
+                    <span>Angemeldet als: <strong id="current-user">-</strong></span>
+                </li>
+                <li class="nav-item">
+                    <button id="logout-button" class="nav-logout" type="button">Abmelden</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="dashboard-shell">
+        <section class="dashboard-hero dashboard-panel">
+            <div>
+                <p class="eyebrow">Dashboard</p>
+                <h1 id="dashboard-title">Willkommen <span id="welcome-name">Leiter</span>!</h1>
+                <p class="dashboard-subtitle">Überblick über kommende Termine, Lagerbilder und Team-Organisation.</p>
+            </div>
+            <div class="quick-actions">
+                <button id="new-event-btn" class="primary-btn" type="button">Neuen Anlass</button>
+                <a class="secondary-btn" href="LeiterHinzufügen.html">Leiter verwalten</a>
+            </div>
+        </section>
+
+        <section class="stats-grid" aria-label="Dashboard-Statistiken">
+            <article class="stat-card">
+                <span class="stat-label">Nächster Anlass</span>
+                <strong id="next-event-name">Keine</strong>
+                <small id="next-event-date">Noch kein Termin geplant</small>
+            </article>
+            <article class="stat-card">
+                <span class="stat-label">Anstehende Termine</span>
+                <strong id="upcoming-count">0</strong>
+                <small>Aktive Einträge</small>
+            </article>
+            <article class="stat-card">
+                <span class="stat-label">Gesamt</span>
+                <strong id="total-events">0</strong>
+                <small>Alle gespeicherten Anlässe</small>
+            </article>
+            <article class="stat-card">
+                <span class="stat-label">Lagerbilder</span>
+                <strong id="lager-count">0</strong>
+                <small>Im lokalen Speicher</small>
+            </article>
+        </section>
+
+        <section class="dashboard-grid">
+            <article class="dashboard-panel" aria-labelledby="events-panel-title">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Planung</p>
+                        <h2 id="events-panel-title">Anlässe</h2>
+                    </div>
+                </div>
+
+                <div id="events-controls" class="events-controls">
+                    <form id="new-event-form" class="hidden" aria-hidden="true">
+                        <label for="event-title">Titel</label>
+                        <input id="event-title" name="title" required />
+                        <label for="event-date">Datum</label>
+                        <input id="event-date" name="date" type="date" required />
+                        <label for="event-info">Infos</label>
+                        <input id="event-info" name="info" type="text" required />
+                        <button id="save-event-btn" type="submit">Speichern</button>
+                        <button id="cancel-event-btn" type="button" class="secondary-action">Abbrechen</button>
+                    </form>
+                </div>
+
+                <div id="events-list-wrap">
+                    <ul id="events-list"></ul>
+                </div>
+                <p id="events-status" class="status-message" aria-live="polite"></p>
+            </article>
+
+            <aside class="dashboard-panel" aria-labelledby="lager-upload-title">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Material</p>
+                        <h2 id="lager-upload-title">Lagerbilder verwalten</h2>
+                    </div>
+                </div>
+
+                <form id="lager-upload-form" class="lager-form">
+                    <div class="field-group">
+                        <label for="lager-title">Titel</label>
+                        <input id="lager-title" name="title" placeholder="z. B. Nachtwanderung" required />
+                    </div>
+
+                    <div class="field-group">
+                        <label for="lager-file">Bild auswählen</label>
+                        <input id="lager-file" name="file" type="file" accept="image/*" required />
+                    </div>
+
+                    <button type="submit" class="primary-btn">Hochladen</button>
+                </form>
+                <p id="lager-upload-status" class="status-message" aria-live="polite"></p>
+            </aside>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,186 @@
+[
+  {
+    "username": "Michael Häfeli",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 77 529 29 61",
+    "picture": "pictures/Michael.jpg",
+    "email": "michael.hefali@gmail.com",
+    "role": "Leiter"
+  },
+  {
+    "username": "Fabrice Schwegler",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Fabrice.jpg",
+    "email": "",
+    "role": "Leiter"
+  },
+  {
+    "username": "Leonora Hasani",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Leonora.jpg",
+    "email": "",
+    "role": "Schaar-Leiterin"
+  },
+  {
+    "username": "Fabio",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Fabio.jpg",
+    "email": "",
+    "role": "Schaar-Leiter"
+  },
+  {
+    "username": "Levin Odin",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 76 527 76 60",
+    "picture": "pictures/Levin.jpg",
+    "email": "",
+    "role": "Leiter"
+  },
+  {
+    "username": "Martin",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Martin.jpg",
+    "email": "",
+    "role": "Leiter"
+  },
+  {
+    "username": "Max Oeschger",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 076 469 69 79",
+    "picture": "pictures/Max.jpg",
+    "email": "maxoeschger@bluewin.ch",
+    "role": "Leiter"
+  },
+  {
+    "username": "Melanie Häfeli",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 76 799 06 19",
+    "picture": "pictures/Melanie.jpg",
+    "email": "melanie.lynn@bluewin.ch",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Samuel",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Samuel.jpg",
+    "email": "",
+    "role": "Leiter"
+  },
+  {
+    "username": "Alicija",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Alicija.jpg",
+    "email": "",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Aline Lang",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 76 527 24 02",
+    "picture": "pictures/Aline.jpg",
+    "email": "alinemagdalena.lang@gmail.com",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Alya Hofer",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 78 213 15 02",
+    "picture": "pictures/Alya.jpg",
+    "email": "alya.hofer@hispeed.ch",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Colin Rohs",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 76 673 85 21",
+    "picture": "pictures/Colin.jpg",
+    "email": "colin.rohs@gmail.com",
+    "role": "Leitperson"
+  },
+  {
+    "username": "David",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/David.jpg",
+    "email": "",
+    "role": "Leiter"
+  },
+  {
+    "username": "Elena Meyer",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Elena.jpg",
+    "email": "elemey10@outlook.com",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Giulia Kalt",
+    "password": "JuBla-Villmergen",
+    "telephone": "+41 77 506 37 37",
+    "picture": "pictures/Giulia.jpg",
+    "email": "giulia.kalt07@gmail.com",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Jasmin",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Jasmin.jpg",
+    "email": "",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Lara Hilfiker",
+    "password": "JuBla-Villmergen",
+    "telephone":"+41 78 312 66 33",
+    "picture": "pictures/Lara.jpg",
+    "email": "hilfiker.lara@outlook.com",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Lia",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Lia.jpg",
+    "email": "",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Lisa",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Lisa.jpg",
+    "email": "",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Marcel",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Marcel.jpg",
+    "email": "",
+    "role": "Leiter"
+  },
+  {
+    "username": "Marina",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Marina.jpg",
+    "email": "",
+    "role": "Leiterin"
+  },
+  {
+    "username": "Nina Sanchis",
+    "password": "JuBla-Villmergen",
+    "telephone": "",
+    "picture": "pictures/Nina.jpg",
+    "email": "sanchisnina@gmail.com",
+    "role": "Leiterin"
+  }
+]
