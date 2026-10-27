@@ -1,74 +1,27 @@
-
-(async function protectDashboard() {
-    const { data: { session }, error } =
-        await supabaseClient.auth.getSession();
-
-    if (error || !session) {
-        window.location.replace('login.html');
-        return;
-    }
-
-    const { data: profile, error: profileError } = await supabaseClient
-        .from('profiles')
-        .select('full_name, role, status')
-        .eq('id', session.user.id)
-        .single();
-
-    if (profileError || !profile || profile.status !== 'approved') {
-        await supabaseClient.auth.signOut();
-        window.location.replace('login.html');
-        return;
-    }
-
-    window.currentProfile = {
-        ...profile,
-        id: session.user.id
-    };
-
-    const nameElements = [
-        document.getElementById('welcome-name'),
-        document.getElementById('current-user')
-    ];
-
-    nameElements.forEach(element => {
-        if (element) element.textContent = profile.full_name;
-    });
-
-    const logoutButton = document.getElementById('logout-button');
-
-    if (logoutButton) {
-        logoutButton.addEventListener('click', async () => {
-            await supabaseClient.auth.signOut();
-            window.location.replace('login.html');
-        });
-    }
-
-    document.body.classList.add('dashboard-authenticated');
-
-    if (profile.role === 'admin') {
-        initAdminUserManagement();
-    }
-})();
-
-
 async function initAdminUserManagement() {
     const section = document.getElementById('admin-user-section');
     const list = document.getElementById('admin-user-list');
     const status = document.getElementById('admin-user-status');
+    const count = document.getElementById('admin-user-count');
+    const toggle = document.getElementById('admin-user-toggle');
+    const content = document.getElementById('admin-user-content');
 
-    if (!section || !list || !status) return;
+    if (!section || !list || !status || !count || !toggle || !content) return;
 
     section.classList.remove('hidden');
 
-    // Hinweis für neue Registrierungen
-    const notification = document.createElement('p');
-    notification.className = 'status-message';
-    notification.setAttribute('aria-live', 'polite');
-    section.insertBefore(notification, list);
+    // Benutzerverwaltung auf- und zuklappen
+    toggle.addEventListener('click', () => {
+        const isOpen = !content.classList.contains('hidden');
+
+        content.classList.toggle('hidden', isOpen);
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        toggle.innerHTML = isOpen
+            ? 'Verwalten <span class="admin-toggle-icon">⌄</span>'
+            : 'Schliessen <span class="admin-toggle-icon">⌃</span>';
+    });
 
     async function loadUsers() {
-        list.textContent = 'Benutzer werden geladen ...';
-
         const { data, error } = await supabaseClient
             .from('profiles')
             .select('id, full_name, role, status, created_at')
@@ -77,20 +30,13 @@ async function initAdminUserManagement() {
         if (error) {
             console.error(error);
             list.textContent = 'Benutzer konnten nicht geladen werden.';
-            notification.textContent = '';
             return;
         }
 
         const pendingUsers = data.filter(user => user.status === 'pending');
 
-        if (pendingUsers.length > 0) {
-            notification.textContent =
-                `🔔 ${pendingUsers.length} neue Registrierung(en) warten auf Freischaltung.`;
-            notification.className = 'status-message warning';
-        } else {
-            notification.textContent = 'Keine offenen Registrierungen.';
-            notification.className = 'status-message';
-        }
+        count.textContent = `${pendingUsers.length} offen`;
+        count.classList.toggle('has-pending', pendingUsers.length > 0);
 
         list.innerHTML = '';
 
@@ -110,12 +56,17 @@ async function initAdminUserManagement() {
             const card = document.createElement('div');
             card.className = 'admin-user-card';
 
-            const name = document.createElement('h3');
+            const info = document.createElement('div');
+            info.className = 'admin-user-info';
+
+            const name = document.createElement('strong');
             name.textContent = user.full_name;
 
-            const details = document.createElement('p');
-            details.textContent =
-                'Status: ' + user.status + ' | Rolle: ' + user.role;
+            const details = document.createElement('span');
+            details.className = 'admin-user-details';
+            details.textContent = `${user.status} · ${user.role}`;
+
+            info.append(name, details);
 
             const actions = document.createElement('div');
             actions.className = 'admin-user-actions';
@@ -125,6 +76,7 @@ async function initAdminUserManagement() {
                     const approve = document.createElement('button');
                     approve.type = 'button';
                     approve.textContent = 'Freischalten';
+                    approve.className = 'admin-approve-btn';
                     approve.addEventListener('click', () =>
                         updateUser(user.id, { status: 'approved' })
                     );
@@ -135,6 +87,7 @@ async function initAdminUserManagement() {
                     const reject = document.createElement('button');
                     reject.type = 'button';
                     reject.textContent = 'Ablehnen';
+                    reject.className = 'admin-reject-btn';
                     reject.addEventListener('click', () =>
                         updateUser(user.id, { status: 'rejected' })
                     );
@@ -143,14 +96,14 @@ async function initAdminUserManagement() {
 
                 const makeLeader = document.createElement('button');
                 makeLeader.type = 'button';
-                makeLeader.textContent = 'Als Leiter setzen';
+                makeLeader.textContent = 'Leiter';
                 makeLeader.addEventListener('click', () =>
                     updateUser(user.id, { role: 'leader' })
                 );
 
                 const makeAdmin = document.createElement('button');
                 makeAdmin.type = 'button';
-                makeAdmin.textContent = 'Als Admin setzen';
+                makeAdmin.textContent = 'Admin';
                 makeAdmin.addEventListener('click', () =>
                     updateUser(user.id, { role: 'admin' })
                 );
@@ -158,7 +111,7 @@ async function initAdminUserManagement() {
                 actions.append(makeLeader, makeAdmin);
             }
 
-            card.append(name, details, actions);
+            card.append(info, actions);
             list.appendChild(card);
         });
     }

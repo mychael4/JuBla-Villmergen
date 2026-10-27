@@ -55,21 +55,33 @@
         </section>
 
 
-        <section id="admin-user-section" class="dashboard-panel hidden">
-            <div class="panel-header">
-                <div>
+        <section id="admin-user-section" class="dashboard-panel admin-user-panel hidden">
+            <div class="admin-user-header">
+                <div class="admin-user-heading">
                     <p class="panel-kicker">Administration</p>
                     <h2>Benutzerverwaltung</h2>
-                    <p>Registrierte Leiter verwalten und freischalten.</p>
+                </div>
+
+                <div class="admin-user-controls">
+                    <span id="admin-user-count" class="admin-user-count">0 offen</span>
+                    <button
+                            id="admin-user-toggle"
+                            class="admin-toggle-btn"
+                            type="button"
+                            aria-expanded="false"
+                    >
+                        Verwalten <span class="admin-toggle-icon">⌄</span>
+                    </button>
                 </div>
             </div>
 
-            <div id="admin-user-list">
-                <p>Benutzer werden geladen ...</p>
-            </div>
+            <div id="admin-user-content" class="admin-user-content hidden">
+                <div id="admin-user-list">
+                    <p>Benutzer werden geladen ...</p>
+                </div>
 
-            <p id="admin-user-status" class="status-message"
-               aria-live="polite"></p>
+                <p id="admin-user-status" class="status-message" aria-live="polite"></p>
+            </div>
         </section>
 
         <section class="stats-grid" aria-label="Dashboard-Statistiken">
