@@ -1,3 +1,31 @@
+async function initDashboardLogout() {
+    const logoutButton = document.getElementById('logout-button');
+
+    if (!logoutButton) return;
+
+    logoutButton.addEventListener('click', async () => {
+        logoutButton.disabled = true;
+        logoutButton.textContent = 'Abmelden...';
+
+        try {
+            const { error } = await supabaseClient.auth.signOut();
+
+            if (error) {
+                console.error('Fehler beim Abmelden:', error);
+                logoutButton.disabled = false;
+                logoutButton.textContent = 'Abmelden';
+                return;
+            }
+
+            window.location.href = 'login.html';
+        } catch (error) {
+            console.error('Fehler beim Abmelden:', error);
+            logoutButton.disabled = false;
+            logoutButton.textContent = 'Abmelden';
+        }
+    });
+}
+
 async function initAdminUserManagement() {
     const section = document.getElementById('admin-user-section');
     const list = document.getElementById('admin-user-list');
@@ -153,3 +181,6 @@ async function initAdminUserManagement() {
         )
         .subscribe();
 }
+
+initDashboardLogout();
+initAdminUserManagement();
