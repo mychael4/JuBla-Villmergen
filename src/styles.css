@@ -766,6 +766,16 @@ h2 {
 }
 
 @media (max-width: 760px) {
+    .dashboard-page .stats-grid {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+    }
+
+    .dashboard-page .stat-card {
+        width: 100%;
+        min-width: 0;
+    }
+
     .navbar {
         width: min(100%, calc(1120px - 1rem));
         gap: 0.6rem;
@@ -865,6 +875,19 @@ h2 {
 }
 
 @media (max-width: 560px) {
+    .dashboard-page .stats-grid {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+        margin-left: 0;
+        row-gap: 0.9rem;
+    }
+
+    .dashboard-page .stat-card {
+        width: 100%;
+        min-width: 0;
+        padding: 1rem 0.9rem;
+    }
+
     .navbar {
         position: relative;
         flex-direction: row;
