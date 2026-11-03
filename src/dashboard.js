@@ -36,6 +36,34 @@ async function initAdminUserManagement() {
 
     if (!section || !list || !status || !count || !toggle || !content) return;
 
+    async function loadCurrentProfile() {
+        try {
+            const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+            if (userError || !user) {
+                window.currentProfile = null;
+                return;
+            }
+
+            const { data, error } = await supabaseClient
+                .from('profiles')
+                .select('id, full_name, role, status')
+                .eq('id', user.id)
+                .single();
+
+            if (error || !data) {
+                window.currentProfile = null;
+                return;
+            }
+
+            window.currentProfile = data;
+            const currentUser = document.getElementById('current-user');
+            if (currentUser) currentUser.textContent = data.full_name || 'Unbekannt';
+        } catch {
+            window.currentProfile = null;
+        }
+    }
+
+    await loadCurrentProfile();
     section.classList.remove('hidden');
 
     // Benutzerverwaltung auf- und zuklappen
@@ -73,6 +101,11 @@ async function initAdminUserManagement() {
             return;
         }
 
+        if (!data.some(user => user.status === 'pending')) {
+            list.innerHTML = '<p>Keine ausstehenden Registrierungen.</p>';
+            return;
+        }
+
         // Ausstehende Registrierungen zuerst anzeigen
         data.sort((a, b) => {
             if (a.status === 'pending' && b.status !== 'pending') return -1;
@@ -88,18 +121,21 @@ async function initAdminUserManagement() {
             info.className = 'admin-user-info';
 
             const name = document.createElement('strong');
-            name.textContent = user.full_name;
+            name.textContent = user.full_name || 'Unbekannter Nutzer';
 
             const details = document.createElement('span');
             details.className = 'admin-user-details';
-            details.textContent = `${user.status} · ${user.role}`;
+            details.textContent = `${user.status || 'unknown'} · ${user.role || 'user'}`;
 
             info.append(name, details);
 
             const actions = document.createElement('div');
             actions.className = 'admin-user-actions';
 
-            if (user.id !== window.currentProfile.id) {
+            const currentProfileId = window.currentProfile && window.currentProfile.id ? window.currentProfile.id : null;
+            const isCurrentUser = currentProfileId && user.id === currentProfileId;
+
+            if (!isCurrentUser) {
                 if (user.status !== 'approved') {
                     const approve = document.createElement('button');
                     approve.type = 'button';
