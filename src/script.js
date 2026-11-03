@@ -5,6 +5,46 @@ if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
 }
 
+(function setupMobileNavigation() {
+    const navbars = document.querySelectorAll('.navbar');
+
+    navbars.forEach(navbar => {
+        if (navbar.querySelector('.nav-toggle')) return;
+
+        const navLinks = navbar.querySelector('.nav-links');
+        if (!navLinks) return;
+
+        const toggleButton = document.createElement('button');
+        toggleButton.type = 'button';
+        toggleButton.className = 'nav-toggle';
+        toggleButton.setAttribute('aria-expanded', 'false');
+        toggleButton.setAttribute('aria-label', 'Menü öffnen');
+        toggleButton.innerHTML = '<span></span><span></span><span></span><span class="sr-only">Menü</span>';
+
+        const navId = navLinks.id || `nav-menu-${Math.random().toString(36).slice(2, 9)}`;
+        navLinks.id = navId;
+        toggleButton.setAttribute('aria-controls', navId);
+
+        toggleButton.addEventListener('click', () => {
+            const isOpen = navbar.classList.toggle('nav-open');
+            toggleButton.setAttribute('aria-expanded', String(isOpen));
+            toggleButton.setAttribute('aria-label', isOpen ? 'Menü schliessen' : 'Menü öffnen');
+        });
+
+        navbar.insertBefore(toggleButton, navLinks);
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 560) {
+                    navbar.classList.remove('nav-open');
+                    toggleButton.setAttribute('aria-expanded', 'false');
+                    toggleButton.setAttribute('aria-label', 'Menü öffnen');
+                }
+            });
+        });
+    });
+})();
+
 // Alte lokale Login-Funktionen wurden entfernt.
 // Die Anmeldung und der Logout werden durch Supabase geregelt.
 
