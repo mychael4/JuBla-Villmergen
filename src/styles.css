@@ -985,14 +985,47 @@ h2 {
         padding: 0 0.75rem;
     }
 
+    .dashboard-shell {
+        gap: 1rem;
+    }
+
     .auth-card,
     .dashboard-panel,
     .dashboard-hero {
         padding: 1.2rem 0.9rem;
     }
 
-    .stats-grid {
+    .dashboard-hero {
+        display: grid;
         grid-template-columns: 1fr;
+        align-items: start;
+        gap: 0.8rem;
+    }
+
+    .dashboard-hero h1 {
+        font-size: clamp(1.8rem, 8vw, 2.4rem);
+        line-height: 1.1;
+    }
+
+    .stats-grid,
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        min-width: 0;
+        word-break: break-word;
+    }
+
+    .user-pill {
+        display: block;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .user-pill span {
+        display: block;
+        line-height: 1.4;
     }
 
     .login-form input,
