@@ -633,7 +633,7 @@ h2 {
     }
 
     .stats-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
     }
 
     .dashboard-grid {
@@ -842,7 +842,7 @@ h2 {
     }
 
     .stats-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
     }
 
     #new-event-form {
@@ -1014,6 +1014,8 @@ h2 {
 
     .stats-grid {
         row-gap: 0.9rem;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
     }
 
     .stat-card {
