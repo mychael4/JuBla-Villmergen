@@ -14,7 +14,7 @@ function showStatus(message, type = '') {
     }
 }
 
-function showRegister(show) {
+function showRegister(show, preserveStatus = false) {
     loginForm.hidden = show;
     registerForm.hidden = !show;
 
@@ -24,7 +24,9 @@ function showRegister(show) {
         ? 'Bereits ein Konto? Anmelden'
         : 'Noch kein Konto? Registrieren';
 
-    showStatus('');
+    if (!preserveStatus) {
+        showStatus('');
+    }
 }
 
 toggleButton.addEventListener('click', () => {
@@ -115,12 +117,12 @@ registerForm.addEventListener('submit', async (event) => {
     }
 
     showStatus(
-        'Registrierung erfolgreich! Dein Konto muss jetzt noch vom Administrator freigeschaltet werden.',
+        'Registrierung erfolgreich! Deine Anfrage wurde gesendet und muss noch vom Administrator freigeschaltet werden.',
         'success'
     );
 
     registerForm.reset();
-    showRegister(false);
+    showRegister(false, true);
 
     loginForm.hidden = false;
     registerForm.hidden = true;
