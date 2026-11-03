@@ -1012,9 +1012,23 @@ h2 {
         grid-template-columns: 1fr;
     }
 
+    .stats-grid {
+        row-gap: 0.9rem;
+    }
+
     .stat-card {
         min-width: 0;
+        width: 100%;
+        min-height: auto;
+        padding: 1rem 0.9rem;
         word-break: break-word;
+    }
+
+    .stat-card strong,
+    .stat-card small,
+    .stat-card .stat-label {
+        display: block;
+        width: 100%;
     }
 
     .user-pill {
