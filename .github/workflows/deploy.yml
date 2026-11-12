@@ -38,7 +38,6 @@ jobs:
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='node_modules/' \
-            --exclude='public/' \
             ./ public/
 
           cat > public/index.html <<'EOF'
