@@ -87,7 +87,7 @@ const hiddenLeaderNames = new Set(['Max Oeschger']);
 
 async function loadLeaders() {
     try {
-        const response = await fetch('/logins/users.json');
+        const response = await fetch('/leiter/users.json');
         if (!response.ok) throw new Error('Leiterliste konnte nicht geladen werden.');
 
         const users = await response.json();
