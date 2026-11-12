@@ -664,9 +664,9 @@ h2 {
 
 .leader-avatar,
 .leader-modal-avatar {
-    width: clamp(110px, 15vw, 180px);
-    height: clamp(110px, 15vw, 180px);
-    min-width: clamp(110px, 15vw, 180px);
+    width: clamp(130px, 18vw, 200px);
+    height: clamp(130px, 18vw, 200px);
+    min-width: clamp(130px, 18vw, 200px);
     display: grid;
     place-items: center;
     border-radius: 50%;
@@ -690,7 +690,7 @@ h2 {
     object-fit: cover;
     object-position: center center;
     max-width: none;
-    transform: scale(1.08);
+    transform: scale(1.12);
     transform-origin: center center;
     filter: none;
     will-change: transform;
@@ -1614,8 +1614,8 @@ h2 {
 }
 
 .leader-modal-avatar {
-    width: clamp(140px, 24vw, 220px);
-    height: clamp(140px, 24vw, 220px);
+    width: clamp(180px, 28vw, 260px);
+    height: clamp(180px, 28vw, 260px);
     border-radius: 50%;
     overflow: hidden;
     display: grid;
@@ -1636,7 +1636,7 @@ h2 {
     object-fit: cover;
     object-position: center center;
     max-width: none;
-    transform: scale(1.08);
+    transform: scale(1.12);
     transform-origin: center center;
     filter: none;
     -webkit-backface-visibility: hidden;
