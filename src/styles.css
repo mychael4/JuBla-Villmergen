@@ -664,9 +664,9 @@ h2 {
 
 .leader-avatar,
 .leader-modal-avatar {
-    width: clamp(260px, 36vw, 400px);
-    height: clamp(260px, 36vw, 400px);
-    min-width: clamp(260px, 36vw, 400px);
+    width: clamp(130px, 18vw, 200px);
+    height: clamp(130px, 18vw, 200px);
+    min-width: clamp(130px, 18vw, 200px);
     display: grid;
     place-items: center;
     border-radius: 50%;
@@ -1614,8 +1614,8 @@ h2 {
 }
 
 .leader-modal-avatar {
-    width: clamp(360px, 52vw, 520px);
-    height: clamp(360px, 52vw, 520px);
+    width: clamp(140px, 24vw, 220px);
+    height: clamp(140px, 24vw, 220px);
     border-radius: 50%;
     overflow: hidden;
     display: grid;
