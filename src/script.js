@@ -257,6 +257,85 @@ function setStatus(message, type, element) {
     if (type) element.classList.add(type);
 }
 
+function getLagerUploads() {
+    try {
+        return JSON.parse(localStorage.getItem('lager-uploads') || '[]');
+    } catch {
+        return [];
+    }
+}
+
+function saveLagerUploads(items) {
+    localStorage.setItem('lager-uploads', JSON.stringify(items));
+}
+
+function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('Datei konnte nicht gelesen werden.'));
+        reader.readAsDataURL(file);
+    });
+}
+
+function getCurrentUploaderName() {
+    const currentUserElement = document.getElementById('current-user');
+    const value = currentUserElement ? currentUserElement.textContent.trim() : '';
+    return value || 'Leiter';
+}
+
+function renderLagerGallery(container, items, emptyMessage) {
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    if (!items.length) {
+        const empty = document.createElement('p');
+        empty.className = 'lager-empty';
+        empty.textContent = emptyMessage;
+        container.appendChild(empty);
+        return;
+    }
+
+    const sorted = [...items].sort((a, b) => (b.uploadedAt || 0) - (a.uploadedAt || 0));
+
+    sorted.slice(0, 4).forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'homepage-lager-card';
+
+        const image = document.createElement('img');
+        image.src = item.dataUrl;
+        image.alt = item.title || item.filename || 'Lagerbild';
+        image.className = 'homepage-lager-image';
+
+        const body = document.createElement('div');
+        body.className = 'homepage-lager-body';
+
+        const title = document.createElement('strong');
+        title.textContent = item.title || 'Lagerbild';
+
+        const meta = document.createElement('small');
+        meta.textContent = item.uploader ? `hochgeladen von ${item.uploader}` : 'Lagerbild';
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = item.dataUrl;
+        downloadLink.download = item.filename || 'lagerbild.png';
+        downloadLink.textContent = 'Herunterladen';
+        downloadLink.className = 'homepage-lager-download';
+
+        body.append(title, meta, downloadLink);
+        card.append(image, body);
+        container.appendChild(card);
+    });
+}
+
+function renderHomepageLagerGallery() {
+    const container = document.getElementById('homepage-lager-gallery');
+    if (!container) return;
+
+    renderLagerGallery(container, getLagerUploads(), 'Noch keine Lagerbilder hochgeladen.');
+}
+
 async function renderLeaderGrid() {
     const grid = document.getElementById('leader-grid');
     if (!grid) return;
@@ -397,6 +476,7 @@ async function renderHomepageEvents() {
 }
 
 renderHomepageEvents();
+renderHomepageLagerGallery();
 renderLeaderGrid();
 
 
@@ -536,15 +616,54 @@ renderLeaderGrid();
 
     const statusEl = document.getElementById('lager-upload-status');
     const countEl = document.getElementById('lager-count');
+    const fileInput = document.getElementById('lager-file');
+    const titleInput = document.getElementById('lager-title');
 
-    form.addEventListener('submit', event => {
+    const updateCounter = () => {
+        const total = getLagerUploads().length;
+        if (countEl) countEl.textContent = String(total);
+    };
+
+    form.addEventListener('submit', async event => {
         event.preventDefault();
-        setStatus(
-            'Der Bilderupload benötigt noch eine gemeinsame Speicherlösung.',
-            'error',
-            statusEl
-        );
+
+        const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+        const title = titleInput ? titleInput.value.trim() : '';
+
+        if (!file) {
+            setStatus('Bitte ein Bild auswählen.', 'error', statusEl);
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            setStatus('Bitte nur Bilddateien hochladen.', 'error', statusEl);
+            return;
+        }
+
+        try {
+            setStatus('Bild wird hochgeladen...', '', statusEl);
+            const dataUrl = await readFileAsDataUrl(file);
+            const items = getLagerUploads();
+            const uploadItem = {
+                id: (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : `lager-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+                title: title || file.name,
+                filename: file.name,
+                dataUrl,
+                uploadedAt: Date.now(),
+                uploader: getCurrentUploaderName()
+            };
+
+            items.push(uploadItem);
+            saveLagerUploads(items);
+            updateCounter();
+            form.reset();
+            renderHomepageLagerGallery();
+            setStatus('Bild erfolgreich hochgeladen und für Download verfügbar.', 'success', statusEl);
+        } catch (error) {
+            console.error('Fehler beim Upload:', error);
+            setStatus('Fehler beim Hochladen: ' + error.message, 'error', statusEl);
+        }
     });
 
-    if (countEl) countEl.textContent = '0';
+    updateCounter();
 })();
